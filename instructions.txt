@@ -1,0 +1,34 @@
+1.) First try using Assembly Ai but when tried to implement realtime transcription found out that the feature is paid , the code for that was in app.py
+
+Use assembly ai 
+pyaudio - to get user audio from mic 
+websockets - to communicate with assemblyai
+asyncio - to send data while receiving next block of audio simultaneously
+base64 - encoding decoding audio
+json - to read it in the form of json
+
+
+2.) Then tried other methods for realtime and finally decided to do it using features of the device the user is using.
+Implemented this using :
+Pyaudio - to take input from mic 
+Threading - one thread listens at all times while another thread starts transcribing in chunks .
+
+To do this used vosk library.
+
+All the final code to be run is in frontend.py file 
+To run type streamlit run frontend.py
+
+Other notes : 
+To find out which device is recording run the script in trial.py and see the corresponding device id. 
+Use this parameter in frontend.py at stream = p.open(format=AUDIO_FORMAT,channels = CHANNELS , rate = FRAME_RATE , input = True,input_device_index=1 , frames_per_buffer = chunk) and replace the input_device_index to the mic in your case.
+
+Vosk main model download from "https://alphacephei.com/vosk/models". I used the "vosk-model-small-en-us-0.15" model.
+Vosk transcription by itself did not punctuate the audio thus required another sister library of vosk to punctuate. 
+File was too big to upload. 
+To use it we have to download the zip from 'vosk-recasepunc-en-0.22' given in the same docs as the parent vosk models.
+and place it in the same directory in folder named recasepunc 
+as per the line  -> cased = subprocess.check_output('python recasepunc/recasepunc.py predict recasepunc/checkpoint', shell=True, text=True, input=text) 
+
+
+The download took a while and the frames I made to hear audio simultaenously were crashing in the beginning. The 12 hrs limit was over by then so this is all I could finish for now ,  debugging was slightly left.
+
